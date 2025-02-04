@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  shopstat_bot_db:
+    container_name: shopstat-bot-postgres
+    image: postgres:13.3-alpine
+    restart: always
+    environment:
+      TZ: Europe/Moscow
+      POSTGRES_USER: ${POSTGRES_USER:-shopstat_bot_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-jjKAMnSoR23gL}
+      POSTGRES_DB: ${POSTGRES_DB:-shopstat_bot}
+    volumes:
+      - postgres_data:/data/postgres
+    ports:
+      - 5434:5432
+
+volumes:
+  postgres_data:
+    external: false

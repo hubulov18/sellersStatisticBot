@@ -1,0 +1,32 @@
+{
+	"compilerOptions": {
+		"module": "commonjs",
+		"declaration": true,
+		"removeComments": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"allowSyntheticDefaultImports": true,
+		"target": "es2020",
+		"lib": ["esnext"],
+		"sourceMap": true,
+		"outDir": "./dist/src",
+		"baseUrl": "./",
+		"incremental": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noImplicitAny": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noFallthroughCasesInSwitch": true,
+		"forceConsistentCasingInFileNames": true,
+		"strict": true,
+		"alwaysStrict": true,
+		"strictNullChecks": true,
+		"strictPropertyInitialization": true,
+		"strictBindCallApply": true,
+		"suppressImplicitAnyIndexErrors": true,
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"useUnknownInCatchVariables": false
+	}
+}

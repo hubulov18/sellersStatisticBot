@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  shopstat_bot_api:
+    container_name: shopstat-bot-api
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    expose:
+      - 4001
+    environment:
+      TZ: Europe/Moscow
+    depends_on:
+      - shopstat_bot_db
+    env_file:
+      - .env.main
+    volumes:
+      - "./uploads:/app/dist/public/uploads/"
+    ports:
+      - 4001:4001
+
+  shopstat_bot_db:
+    ports:
+      - 5433:5432
+
+networks:
+  default:
+    external:
+      name: nginx-proxy

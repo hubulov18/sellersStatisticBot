@@ -1,0 +1,71 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model TelegramUser {
+  id             BigInt    @id @db.BigInt
+  isActive       Boolean   @default(true)
+  firstName      String    @db.VarChar(200)
+  lastName       String?   @db.VarChar(200)
+  username       String?   @db.VarChar(200)
+  phone          String?   @db.VarChar(200)
+  chatId         BigInt    @unique
+  firstActionAt  DateTime  @default(now())
+  lastActionAt   DateTime  @default(now())
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+  unsubscribedAt DateTime?
+  isRegistered   Boolean   @default(false)
+  isBlocked      Boolean   @default(false)
+  timezone       String    @default("Москва UTC-3") @db.VarChar(200)
+  showTime       Int       @default(0)
+  initHour       String    @default("9:00") @db.VarChar(200)
+
+  ozonApiKeys OzonApiKeys[]
+  wbApiKeys   WbApiKeys[]
+  actions     TelegramUserAction[]
+  session     Sessions?
+}
+
+model TelegramUserAction {
+  id        Int      @id @default(autoincrement())
+  userId    BigInt   @db.BigInt
+  action    String   @db.VarChar(200)
+  createdAt DateTime @default(now())
+
+  telegramUser TelegramUser @relation(fields: [userId], references: [id])
+}
+
+model OzonApiKeys {
+  id             Int     @id @default(autoincrement())
+  keyId          String  @db.VarChar(200)
+  name           String  @db.VarChar(200)
+  isObserved     Boolean @default(false)
+  telegramUserId BigInt  @db.BigInt
+
+  telegramUser TelegramUser @relation(fields: [telegramUserId], references: [id])
+}
+
+model WbApiKeys {
+  id             Int     @id @default(autoincrement())
+  keyId          String  @db.VarChar(200)
+  name           String  @db.VarChar(200)
+  isObserved     Boolean @default(false)
+  telegramUserId BigInt  @db.BigInt
+
+  telegramUser TelegramUser @relation(fields: [telegramUserId], references: [id])
+}
+
+model Sessions {
+  id             Int      @id @default(autoincrement())
+  token          String   @unique @db.VarChar(200)
+  createdAt      DateTime @default(now())
+  telegramUserId BigInt   @unique
+
+  telegramUser TelegramUser? @relation(fields: [telegramUserId], references: [id])
+}
